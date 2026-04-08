@@ -1,0 +1,55 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfstate.lock.info
+.terraform.lock.hcl
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Sensitive values — never commit
+*.pem
+*.key
+*.p12
+secrets.tf
+*secrets*
+*credentials*
+
+# AWS
+.aws/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+.venv/
+
+# Docker
+.dockerignore
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log
+logs/
+
+# Docs build artifacts
+docs/build/
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
