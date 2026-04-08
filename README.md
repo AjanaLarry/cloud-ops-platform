@@ -17,7 +17,7 @@ Built as part of a structured 6-month Cloud/DevOps transition, this platform rep
 ## Platform layers
 
 | Layer | Technology | Status |
-|---|---|---|
+| --- | --- | --- |
 | Cloud infrastructure | AWS, Terraform | 🔨 In progress |
 | Containers + CI/CD | Docker, GitHub Actions, ECR | ⬜ Month 2 |
 | Kubernetes platform | EKS, Helm, kubectl | ⬜ Month 3 |
