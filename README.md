@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Cloud Operations Platform
 
 A production-grade cloud infrastructure platform built on AWS, designed to demonstrate end-to-end ownership of cloud infrastructure — from networking foundations to Kubernetes orchestration, CI/CD automation, observability, and AI-assisted incident response.
@@ -169,3 +170,6 @@ This platform is being built as part of a 6-month structured transition into Clo
 ---
 
 *Last updated: April 2026*
+=======
+# cloud-ops-platform
+>>>>>>> f6745b19d28f6e0929ea1dd2d2a39059d4a9c155
