@@ -380,7 +380,7 @@ This platform is being built as part of a structured 6-month transition into Clo
 
 **Target roles:** Cloud Engineer · DevOps Engineer · Platform Engineer · SRE
 
-**LinkedIn:** [https://www.linkedin.com/in/oluwajuwon-ajana/] &nbsp;·&nbsp; **GitHub:** [https://github.com/AjanaLarry]
+**LinkedIn:** [JuwonAjana](https://www.linkedin.com/in/oluwajuwon-ajana/) &nbsp;·&nbsp; **GitHub:** [AjanaLarry](https://github.com/AjanaLarry)
 
 ---
 
