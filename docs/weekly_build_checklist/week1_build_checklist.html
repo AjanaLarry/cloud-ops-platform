@@ -1,0 +1,430 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.root{padding:1rem 0;font-family:var(--font-sans);}
+.phase{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:12px;overflow:hidden;}
+.phase-header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--color-background-secondary);border-bottom:0.5px solid var(--color-border-tertiary);cursor:pointer;}
+.phase-num{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;flex-shrink:0;}
+.phase-title{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1;}
+.phase-time{font-size:12px;color:var(--color-text-tertiary);}
+.phase-body{padding:0;}
+.item{display:grid;grid-template-columns:36px 1fr auto;align-items:flex-start;padding:9px 16px;border-bottom:0.5px solid var(--color-border-tertiary);gap:0;}
+.item:last-child{border-bottom:none;}
+.item-check-col{display:flex;align-items:flex-start;padding-top:2px;}
+.chk{width:18px;height:18px;border-radius:4px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .12s;flex-shrink:0;}
+.chk.done{background:#042C53;border-color:transparent;color:#E6F1FB;}
+.item-text{font-size:13px;color:var(--color-text-primary);line-height:1.5;padding-right:8px;}
+.item-text.done-text{color:var(--color-text-tertiary);text-decoration:line-through;}
+.item-note{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;}
+.item-tag{font-size:10px;padding:2px 7px;border-radius:20px;flex-shrink:0;align-self:flex-start;margin-top:2px;white-space:nowrap;}
+.tag-aws{background:#FAEEDA;color:#633806;}
+.tag-git{background:#E6F1FB;color:#0C447C;}
+.tag-term{background:#F1EFE8;color:#444441;}
+.tag-verify{background:#EAF3DE;color:#27500A;}
+.tag-doc{background:#EEEDFE;color:#3C3489;}
+.progress-wrap{background:var(--color-background-secondary);border-radius:4px;height:5px;overflow:hidden;margin:4px 0;}
+.progress-fill{height:100%;background:#185FA5;border-radius:4px;transition:width .3s;}
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--color-text-tertiary);margin-bottom:3px;}
+.summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px;}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px;text-align:center;}
+.stat-num{font-size:22px;font-weight:500;color:var(--color-text-primary);}
+.stat-label{font-size:11px;color:var(--color-text-tertiary);margin-top:2px;}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1rem 0;}
+.ask-btn{padding:7px 16px;border-radius:20px;border:0.5px solid var(--color-border-secondary);font-size:13px;cursor:pointer;background:var(--color-background-secondary);color:var(--color-text-primary);margin:4px 4px 4px 0;transition:all .12s;}
+.ask-btn:hover{background:var(--color-background-primary);}
+.section-label{font-size:11px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--color-text-tertiary);margin:1rem 0 8px;}
+</style>
+
+<div class="root">
+
+<div style="margin-bottom:1.25rem;">
+  <div style="font-size:19px;font-weight:500;color:var(--color-text-primary);margin-bottom:4px;">Week 1 — Saturday build checklist</div>
+  <div style="font-size:13px;color:var(--color-text-secondary);">AWS Console VPC build · ca-central-1 · Est. 3–4 hrs</div>
+</div>
+
+<div class="summary-grid">
+  <div class="stat"><div class="stat-num" id="done-count">0</div><div class="stat-label">completed</div></div>
+  <div class="stat"><div class="stat-num" id="total-count">0</div><div class="stat-label">total items</div></div>
+  <div class="stat"><div class="stat-num" id="pct-num">0%</div><div class="stat-label">progress</div></div>
+  <div class="stat"><div class="stat-num" id="remain-count">0</div><div class="stat-label">remaining</div></div>
+</div>
+
+<div class="prog-row"><span id="prog-label">0 of 0 complete</span><span id="prog-pct">0%</span></div>
+<div class="progress-wrap"><div class="progress-fill" id="main-bar" style="width:0%"></div></div>
+
+<div class="divider"></div>
+
+<div class="section-label">Phase 0 — Before you open the console (15 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#F1EFE8;color:#444441;">0</div>
+    <div class="phase-title">Environment verification</div>
+    <div class="phase-time">~15 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Verify AWS CLI is connected — run <code>aws sts get-caller-identity</code> and confirm your account ID returns</div><div class="item-note">If it errors, run <code>aws configure</code> and re-enter your credentials</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Confirm your console region is set to <strong style="font-weight:500;">Canada (Central) ca-central-1</strong> — top-right dropdown in the AWS Console</div><div class="item-note">Every resource you create must be in this region — wrong region is the #1 beginner mistake</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Set a billing alarm — go to CloudWatch → Alarms → Create alarm → billing → threshold $10 USD</div><div class="item-note">Protects you from unexpected charges during the build. Do this before creating anything else.</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Open your local repo in VS Code — <code>cd ~/cloud-ops-platform && code .</code></div><div class="item-note">Keep it open alongside the console — you will be adding screenshots and notes as you go</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 1 — VPC (20 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#E6F1FB;color:#0C447C;">1</div>
+    <div class="phase-title">Create the VPC</div>
+    <div class="phase-time">~20 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Navigate to VPC → Your VPCs → Create VPC</div><div class="item-note">Search bar at top → type "VPC" → click the service</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create VPC with: Name = <code>cloud-ops-platform-vpc-dev</code> · CIDR = <code>10.0.0.0/16</code> · Tenancy = Default</div><div class="item-note">Select "VPC only" — not the wizard. IPv6: No IPv6 CIDR block.</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Enable DNS settings — Actions → Edit VPC settings → check both: Enable DNS resolution ✅ Enable DNS hostnames ✅ → Save</div><div class="item-note">Without this, EC2 instances won't get public DNS names and RDS won't resolve correctly</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add tags to the VPC: Project=cloud-ops-platform · Environment=dev · ManagedBy=console · Owner=juwon</div><div class="item-note">Tag everything as you create it — retrofitting tags is painful and Terraform will import these later</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: VPC detail page showing CIDR <code>10.0.0.0/16</code>, DNS settings enabled, and your tags</div><div class="item-note">Save to <code>docs/screenshots/week1/01-vpc-created.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 2 — Subnets (25 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#EAF3DE;color:#27500A;">2</div>
+    <div class="phase-title">Create 4 subnets across 2 AZs</div>
+    <div class="phase-time">~25 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">VPC → Subnets → Create subnet → select your VPC → create <strong style="font-weight:500;">Public Subnet A</strong>: Name=<code>cloud-ops-platform-public-subnet-1a</code> · AZ=ca-central-1a · CIDR=<code>10.0.1.0/24</code></div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add new subnet → <strong style="font-weight:500;">Public Subnet B</strong>: Name=<code>cloud-ops-platform-public-subnet-1b</code> · AZ=ca-central-1b · CIDR=<code>10.0.2.0/24</code></div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add new subnet → <strong style="font-weight:500;">Private App Subnet A</strong>: Name=<code>cloud-ops-platform-private-app-1a</code> · AZ=ca-central-1a · CIDR=<code>10.0.11.0/24</code></div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add new subnet → <strong style="font-weight:500;">Private App Subnet B</strong>: Name=<code>cloud-ops-platform-private-app-1b</code> · AZ=ca-central-1b · CIDR=<code>10.0.12.0/24</code></div><div class="item-note">All 4 subnets can be created in one "Create subnet" session using "Add new subnet"</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Enable auto-assign public IPv4 on both public subnets — click each → Actions → Edit subnet settings → ✅ Enable auto-assign public IPv4 → Save</div><div class="item-note">Private subnets must NOT have this enabled — only the two public subnets</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add tags to all 4 subnets: same Project/Environment/Owner tags + a <code>Tier</code> tag (public or private)</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: Subnets list filtered to your VPC — all 4 visible with their CIDRs and AZs</div><div class="item-note">Save to <code>docs/screenshots/week1/02-subnets.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 3 — Internet Gateway (10 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#FAEEDA;color:#633806;">3</div>
+    <div class="phase-title">Create and attach the Internet Gateway</div>
+    <div class="phase-time">~10 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">VPC → Internet gateways → Create internet gateway → Name=<code>cloud-ops-platform-igw-dev</code></div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Attach to VPC immediately — Actions → Attach to VPC → select <code>cloud-ops-platform-vpc-dev</code> → Attach</div><div class="item-note">Status must show "Attached" — "Detached" means traffic cannot reach the internet</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: Internet gateway detail showing State = <strong style="font-weight:500;">Attached</strong> and VPC association</div><div class="item-note">Save to <code>docs/screenshots/week1/03-igw-attached.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 4 — Elastic IPs + NAT Gateways (20 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#FAEEDA;color:#633806;">4</div>
+    <div class="phase-title">Allocate Elastic IPs and create NAT Gateways</div>
+    <div class="phase-time">~20 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Allocate Elastic IP #1 — VPC → Elastic IPs → Allocate → Tag: Name=<code>cloud-ops-platform-nat-eip-1a</code></div><div class="item-note">Note the IP address — you will assign it to NAT GW A in the next step</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Allocate Elastic IP #2 — Tag: Name=<code>cloud-ops-platform-nat-eip-1b</code></div><div class="item-note">Two EIPs — one per NAT Gateway, one per AZ</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create NAT Gateway A — VPC → NAT gateways → Create → Name=<code>cloud-ops-platform-nat-1a</code> · Subnet=<strong style="font-weight:500;">public-subnet-1a</strong> · Connectivity=Public · EIP=nat-eip-1a</div><div class="item-note">NAT Gateway goes in the PUBLIC subnet — this is critical. Status will say "Pending" for 2–3 min.</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create NAT Gateway B — Name=<code>cloud-ops-platform-nat-1b</code> · Subnet=<strong style="font-weight:500;">public-subnet-1b</strong> · EIP=nat-eip-1b</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Wait for both NAT Gateways to show Status = <strong style="font-weight:500;">Available</strong> before proceeding to route tables</div><div class="item-note">Refresh the page every 60 seconds. Do not create route tables until both show Available.</div></div>
+      <div class="item-tag tag-verify">Verify</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: Both NAT Gateways showing Status = Available, their EIPs, and their subnets</div><div class="item-note">Save to <code>docs/screenshots/week1/04-nat-gateways.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 5 — Route Tables (25 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#E1F5EE;color:#085041;">5</div>
+    <div class="phase-title">Create and configure route tables</div>
+    <div class="phase-time">~25 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create Public Route Table — VPC → Route tables → Create → Name=<code>cloud-ops-platform-public-rt</code> · VPC=your VPC</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add route to Public RT — select it → Routes tab → Edit routes → Add route → Destination=<code>0.0.0.0/0</code> · Target=Internet Gateway → your IGW → Save</div><div class="item-note"><code>0.0.0.0/0</code> means "all traffic not matched by a more specific route goes here" — the default route to the internet</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Associate Public RT with both public subnets — Subnet associations tab → Edit → select public-subnet-1a and public-subnet-1b → Save</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create Private Route Table A — Name=<code>cloud-ops-platform-private-rt-1a</code></div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Add route to Private RT A — Destination=<code>0.0.0.0/0</code> · Target=NAT Gateway → <code>cloud-ops-platform-nat-1a</code> → Save</div><div class="item-note">Private subnet A routes outbound traffic through NAT GW A in the same AZ — keeps traffic local to AZ-A</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Associate Private RT A with <code>private-app-1a</code> only</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create Private Route Table B — Name=<code>cloud-ops-platform-private-rt-1b</code> → route <code>0.0.0.0/0</code> → NAT GW B → associate with <code>private-app-1b</code></div><div class="item-note">AZ-B has its own private RT pointing to its own NAT GW — this is the per-AZ reliability pattern</div></div>
+      <div class="item-tag tag-aws">Console</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: Route tables list showing all 3 tables, their routes, and subnet associations</div><div class="item-note">Save to <code>docs/screenshots/week1/05-route-tables.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 6 — Verify the build (15 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#EEEDFE;color:#3C3489;">6</div>
+    <div class="phase-title">Verify and validate everything</div>
+    <div class="phase-time">~15 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Verify via AWS CLI — run <code>aws ec2 describe-vpcs --filters "Name=tag:Project,Values=cloud-ops-platform" --region ca-central-1</code> — confirm your VPC returns</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Run <code>aws ec2 describe-subnets --filters "Name=vpcId,Values=YOUR_VPC_ID" --query "Subnets[*].{Name:Tags[?Key=='Name'].Value|[0],CIDR:CidrBlock,AZ:AvailabilityZone}" --output table --region ca-central-1</code></div><div class="item-note">Replace YOUR_VPC_ID with the VPC ID from the previous command. All 4 subnets should appear in the table.</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Check the VPC Resource Map — VPC → Your VPCs → select your VPC → Resource map tab. Verify you can see subnets, route tables, and the IGW connected correctly.</div><div class="item-note">This is the best visual confirmation that your architecture is wired correctly</div></div>
+      <div class="item-tag tag-verify">Verify</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">📸 Screenshot: VPC Resource Map showing all components connected</div><div class="item-note">Save to <code>docs/screenshots/week1/06-vpc-resource-map.png</code></div></div>
+      <div class="item-tag tag-doc">Screenshot</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 7 — GitHub push (20 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#E6F1FB;color:#0C447C;">7</div>
+    <div class="phase-title">Commit screenshots and update README build log</div>
+    <div class="phase-time">~20 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Create the screenshots folder — <code>mkdir -p docs/screenshots/week1</code> in your local repo</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Move all 6 screenshots into <code>docs/screenshots/week1/</code> with the numbered filenames used above</div></div>
+      <div class="item-tag tag-term">Terminal</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Update README.md build log — mark Week 1 VPC console row as ✅ Done and add the commit reference once you have it</div></div>
+      <div class="item-tag tag-git">Git</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Stage, commit, push — <code>git add docs/ README.md && git commit -m "feat: Week 1 VPC build — public/private subnets, IGW, NAT GW x2, route tables — ca-central-1" && git push origin main</code></div></div>
+      <div class="item-tag tag-git">Git</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Verify on GitHub — open your repo in the browser and confirm the screenshots folder and updated README are visible</div></div>
+      <div class="item-tag tag-verify">Verify</div>
+    </div>
+  </div>
+</div>
+
+<div class="section-label">Phase 8 — LinkedIn post (15 min)</div>
+
+<div class="phase">
+  <div class="phase-header">
+    <div class="phase-num" style="background:#FAEEDA;color:#633806;">8</div>
+    <div class="phase-title">Publish your Week 1 LinkedIn post</div>
+    <div class="phase-time">~15 min</div>
+  </div>
+  <div class="phase-body">
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Write and publish your Week 1 LinkedIn post — include your VPC resource map screenshot or architecture diagram and your GitHub link</div><div class="item-note">Post on Tuesday or Wednesday 8–9am EST for best reach — draft it today, schedule it for Tuesday</div></div>
+      <div class="item-tag tag-doc">LinkedIn</div>
+    </div>
+    <div class="item">
+      <div class="item-check-col"><div class="chk" onclick="tick(this)"></div></div>
+      <div><div class="item-text">Leave 3 comments on DevOps/Cloud posts in your feed using your prepared comment templates</div></div>
+      <div class="item-tag tag-doc">LinkedIn</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div style="font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px;">Week 1 exit criteria — do not start Week 2 until these are true</div>
+<div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px;font-size:13px;color:var(--color-text-secondary);line-height:1.8;">
+  VPC with CIDR <code>10.0.0.0/16</code> exists in ca-central-1 ·
+  4 subnets across 2 AZs ·
+  Internet Gateway attached ·
+  2 NAT Gateways (one per AZ) both Available ·
+  3 route tables with correct routes and subnet associations ·
+  All resources tagged consistently ·
+  All 6 screenshots in GitHub ·
+  README build log updated ·
+  LinkedIn post drafted
+</div>
+
+<div class="divider"></div>
+<button class="ask-btn" onclick="sendPrompt('I have finished my Week 1 VPC build — walk me through Week 2 Terraform setup')">Start Week 2 — Terraform ↗</button>
+<button class="ask-btn" onclick="sendPrompt('Write my Week 1 LinkedIn post using my VPC build as proof')">Write my LinkedIn post ↗</button>
+<button class="ask-btn" onclick="sendPrompt('Explain why route tables work the way they do in AWS VPCs')">Explain route tables ↗</button>
+
+</div>
+
+<script>
+function tick(el) {
+  el.classList.toggle('done');
+  el.textContent = el.classList.contains('done') ? '✓' : '';
+  const parent = el.closest('.item');
+  const textEl = parent.querySelector('.item-text');
+  if(textEl) textEl.classList.toggle('done-text', el.classList.contains('done'));
+  update();
+}
+function update() {
+  const all = document.querySelectorAll('.chk');
+  const done = [...all].filter(c => c.classList.contains('done')).length;
+  const total = all.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('done-count').textContent = done;
+  document.getElementById('total-count').textContent = total;
+  document.getElementById('pct-num').textContent = pct + '%';
+  document.getElementById('remain-count').textContent = total - done;
+  document.getElementById('main-bar').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = done + ' of ' + total + ' complete';
+  document.getElementById('prog-pct').textContent = pct + '%';
+}
+window.addEventListener('load', update);
+</script>

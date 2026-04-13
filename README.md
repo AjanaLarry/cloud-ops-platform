@@ -351,8 +351,8 @@ terraform apply
 |---|---|---|---|
 | Week 1 | Repo structure · README · Well-Architected docs | Git | ✅ Done |
 | Week 1 | Architecture diagram (Eraser.io · Well-Architected) | Eraser.io | ✅ Done |
-| Week 1 | VPC · 4 subnets · IGW · NAT GW · Route tables | AWS Console | 🔨 In progress |
-| Week 2 | Full VPC stack via Terraform modules | Terraform | ⬜ Upcoming |
+| Week 1 | VPC · 4 subnets · IGW · NAT GW · Route tables | AWS Console | ✅ Done |
+| Week 2 | Full VPC stack via Terraform modules | Terraform | 🔨 In progress |
 | Week 2 | IAM roles · CloudWatch alarms | Terraform | ⬜ Upcoming |
 | Week 3 | Terraform modules · remote state (S3 + DynamoDB lock) | Terraform | ⬜ Upcoming |
 | Week 4 | Linux bash health check · Month 1 capstone | Bash | ⬜ Upcoming |
