@@ -174,6 +174,99 @@ outbound connectivity for the other AZ."
 
 ---
 
+## Challenge 005 — Security group chaining
+
+**Date:** April 2026
+**Phase:** Week 2 · Phase 0 — Security groups
+
+### What it is
+Instead of allowing a specific IP range as the inbound
+source for RDS port 5432, the source is set to the EC2
+security group ID itself. Any EC2 instance attached to
+that security group is automatically allowed — any
+instance not attached is automatically denied.
+
+### Why it matters
+IP-based rules break when EC2 instances are replaced,
+scaled, or get new IPs. SG-based rules are dynamic —
+they follow the security group membership, not the IP.
+This is the correct production pattern for all
+service-to-service communication inside a VPC.
+
+### Interview angle
+"I used security group chaining for EC2-to-RDS
+communication — the RDS security group allows port 5432
+from the EC2 security group ID, not from a CIDR range.
+This means the rule is membership-based not IP-based,
+which is essential when instances scale or get replaced."
+
 ---
 
+## Challenge 006 — SSH security group rule and dynamic home IP
+
+**Date:** April 2026
+**Phase:** Week 2 · Phase 0 — Security groups
+
+### Symptom
+Confusion between local private IP (192.168.x.x) shown in
+Mac network settings and the public IP AWS detects via
+"My IP" when creating a security group rule.
+
+### Root cause
+Home routers use NAT — your Mac has a private IP on your
+local network but presents a single public IP to the
+internet. AWS can only see the public IP. The private IP
+(192.168.x.x) is meaningless outside your home network.
+
+### Additional gotcha
+Home ISP IPs (Bell, Rogers, etc.) are typically dynamic —
+they change on router restart. If SSH stops working with
+"connection timed out", your IP has changed.
+
+### Fix
+Run: curl ifconfig.me
+Update the SSH inbound rule in the EC2 security group
+with the new IP. Takes 30 seconds.
+
+### Interview angle
+"I locked down SSH access to my specific public IP using
+a /32 CIDR rule — only my machine can reach port 22.
+I also documented that home IPs are dynamic so if SSH
+stops working the first debugging step is to verify
+your current public IP matches the security group rule."
+
+---
+
+## Challenge 007 — RDS requires DB subnet group before creation
+
+**Date:** April 2026
+**Phase:** Week 2 · Phase 2 — RDS PostgreSQL
+
+### What it is
+RDS cannot be launched directly into a subnet the way
+EC2 can. It requires a DB subnet group — a named
+collection of subnets across at least 2 AZs — to be
+created first. RDS uses this group to determine where
+to place the instance and where to put a standby
+replica if Multi-AZ is enabled later.
+
+### Why it matters
+If you try to create RDS without a subnet group, AWS
+either errors or places it in the default VPC. Creating
+the subnet group first with both private subnets means
+Multi-AZ can be enabled in Month 5 without any
+network reconfiguration.
+
+### Interview angle
+"RDS uses DB subnet groups rather than direct subnet
+assignment because it needs placement flexibility across
+AZs for high availability. I created my subnet group
+spanning both private subnets upfront so enabling
+Multi-AZ in production requires zero networking changes."
+
+---
+
+
+
+---
 *This log is updated in real time as challenges are encountered. Each entry is a documented learning, not a failure.*

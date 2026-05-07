@@ -352,6 +352,11 @@ terraform apply
 | Week 1 | Repo structure · README · Well-Architected docs | Git | ✅ Done |
 | Week 1 | Architecture diagram (Eraser.io · Well-Architected) | Eraser.io | ✅ Done |
 | Week 1 | VPC · 4 subnets · IGW · NAT GW · Route tables | AWS Console | ✅ Done |
+| Week 2 | EC2 security group · RDS security group (SG chaining) | AWS Console | ✅ Done |
+| Week 2 | EC2 t2.micro · Amazon Linux 2023 · nginx via user data | AWS Console | ✅ Done |
+| Week 2 | RDS PostgreSQL 16 · private subnet · psql verified | AWS Console | ✅ Done |
+| Week 2 | S3 bucket · versioning · Glacier lifecycle · SSE-S3 | AWS Console | ✅ Done |
+| Week 2 | CloudWatch CPU alarm · SNS notification · tested | AWS Console | ✅ Done |
 | Week 2 | Full VPC stack via Terraform modules | Terraform | 🔨 In progress |
 | Week 2 | IAM roles · CloudWatch alarms | Terraform | ⬜ Upcoming |
 | Week 3 | Terraform modules · remote state (S3 + DynamoDB lock) | Terraform | ⬜ Upcoming |
