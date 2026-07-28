@@ -1,8 +1,15 @@
-# Remote state — replace bucket name with your own S3 bucket
-# Create the S3 bucket and DynamoDB table manually first (Week 2)
 terraform {
+  required_version = ">= 1.6"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+
   backend "s3" {
-    bucket         = "cloud-ops-platform-tfstate"
+    bucket         = "cloud-ops-platform-tfstate-larry-kodes"
     key            = "dev/terraform.tfstate"
     region         = "ca-central-1"
     dynamodb_table = "cloud-ops-platform-tfstate-lock"

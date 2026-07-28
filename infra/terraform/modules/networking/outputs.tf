@@ -4,12 +4,12 @@ output "vpc_id" {
 }
 
 output "public_subnet_ids" {
-  description = "IDs of public subnets"
+  description = "List of public subnet IDs"
   value       = aws_subnet.public[*].id
 }
 
 output "private_subnet_ids" {
-  description = "IDs of private subnets"
+  description = "List of private subnet IDs"
   value       = aws_subnet.private[*].id
 }
 
@@ -18,12 +18,12 @@ output "internet_gateway_id" {
   value       = aws_internet_gateway.main.id
 }
 
-output "nat_gateway_id" {
-  description = "ID of the NAT Gateway"
-  value       = aws_nat_gateway.main.id
+output "nat_gateway_ids" {
+  description = "List of NAT Gateway IDs"
+  value       = aws_nat_gateway.main[*].id
 }
 
-output "nat_gateway_public_ip" {
-  description = "Public IP of the NAT Gateway"
-  value       = aws_eip.nat.public_ip
+output "nat_public_ips" {
+  description = "Public IPs of the NAT Gateways"
+  value       = aws_eip.nat[*].public_ip
 }
