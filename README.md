@@ -357,10 +357,11 @@ terraform apply
 | Week 2 | RDS PostgreSQL 16 · private subnet · psql verified | AWS Console | ✅ Done |
 | Week 2 | S3 bucket · versioning · Glacier lifecycle · SSE-S3 | AWS Console | ✅ Done |
 | Week 2 | CloudWatch CPU alarm · SNS notification · tested | AWS Console | ✅ Done |
-| Week 2 | Full VPC stack via Terraform modules | Terraform | 🔨 In progress |
-| Week 2 | IAM roles · CloudWatch alarms | Terraform | ⬜ Upcoming |
-| Week 3 | Terraform modules · remote state (S3 + DynamoDB lock) | Terraform | ⬜ Upcoming |
-| Week 4 | Linux bash health check · Month 1 capstone | Bash | ⬜ Upcoming |
+| Week 2 | Full VPC stack via Terraform modules | Terraform | ✅ Done |
+| Week 2 | IAM roles · CloudWatch alarms | Terraform | ✅ Done |
+| Week 3 | Terraform modules · remote state (S3 + DynamoDB lock) | Terraform | ✅ Done |
+| Week 4 | Linux bash health check · Month 1 capstone | Bash | 🔨 In progress |
+| Week 5 | Docker · GitHub Actions · ECR | Containers + CI/CD | ⬜ Upcoming |
 
 ---
 
